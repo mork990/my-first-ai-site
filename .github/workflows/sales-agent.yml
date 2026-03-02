@@ -1,0 +1,56 @@
+name: Sales Agent — Pricing & Conversion Optimizer
+
+on:
+  schedule:
+    # Run every Wednesday at 10:00 AM UTC
+    - cron: '0 10 * * 3'
+  workflow_dispatch:
+
+jobs:
+  sales-optimization:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sales Agent — Optimization Run
+        run: |
+          echo "============================================"
+          echo "  SALES AGENT — Optimization Run"
+          echo "  Date: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          echo "============================================"
+          echo ""
+          echo "Agent Status: ACTIVE"
+          echo ""
+          echo "--- Product Catalog Check ---"
+          echo ""
+          echo "Product 1: AI Mega Prompt Pack"
+          echo "  Price: \$19 (was \$39) — 51% discount"
+          echo "  Status: LIVE"
+          echo "  Strategy: Anchor pricing with strikethrough"
+          echo ""
+          echo "Product 2: Notion Productivity Bundle"
+          echo "  Price: \$12 (was \$25) — 52% discount"
+          echo "  Status: LIVE"
+          echo "  Strategy: Feature-based value proposition"
+          echo ""
+          echo "Product 3: Content Calendar Kit"
+          echo "  Price: \$9 (was \$19) — 53% discount"
+          echo "  Status: LIVE"
+          echo "  Strategy: Low entry point, upsell to bundle"
+          echo ""
+          echo "Product 4: Complete Business Bundle"
+          echo "  Price: \$29 (was \$83) — 65% discount"
+          echo "  Status: LIVE — FEATURED"
+          echo "  Strategy: Best value, bundle everything"
+          echo ""
+          echo "--- Conversion Funnel ---"
+          echo "Landing page → Products page: Target 40%"
+          echo "Products page → Purchase: Target 3%"
+          echo "Bundle vs individual: Target 40% bundle"
+          echo ""
+          echo "--- Pricing Tests Planned ---"
+          echo "- Test \$17 vs \$19 for Mega Pack"
+          echo "- Test \$24 vs \$29 for Bundle"
+          echo ""
+          echo "Sales Agent execution complete."

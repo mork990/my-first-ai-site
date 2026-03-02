@@ -102,22 +102,57 @@
   };
 
   // ==================== PURCHASE HANDLER ====================
+  // Gumroad product IDs — replace these with your actual Gumroad product IDs
+  var GUMROAD_PRODUCTS = {
+    'AI Mega Prompt Pack': 'REPLACE_WITH_GUMROAD_ID',
+    'Notion Productivity Bundle': 'REPLACE_WITH_GUMROAD_ID',
+    'Content Calendar Kit': 'REPLACE_WITH_GUMROAD_ID',
+    'Complete Business Bundle': 'REPLACE_WITH_GUMROAD_ID'
+  };
+
   window.handlePurchase = function (productName, price) {
     // Track the purchase intent
     trackEvent('purchase_click', { product: productName, price: price });
 
-    // In production, this would redirect to Gumroad
-    // For now, show a message directing to set up Gumroad
-    alert(
-      'Product: ' + productName + ' — $' + price + '\n\n' +
-      'To complete setup, create a Gumroad account and replace this ' +
-      'handler with your Gumroad product links.\n\n' +
-      'Steps:\n' +
-      '1. Go to gumroad.com and create an account\n' +
-      '2. Create your products\n' +
-      '3. Replace the onclick handlers with Gumroad links'
-    );
+    var gumroadId = GUMROAD_PRODUCTS[productName];
+
+    if (gumroadId && gumroadId !== 'REPLACE_WITH_GUMROAD_ID') {
+      // Real Gumroad purchase — opens Gumroad overlay
+      window.open('https://gumroad.com/l/' + gumroadId, '_blank');
+    } else {
+      // Setup mode — show setup instructions in a nice modal
+      showSetupModal(productName, price);
+    }
   };
+
+  // ==================== SETUP MODAL ====================
+  function showSetupModal(productName, price) {
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;';
+
+    overlay.innerHTML =
+      '<div style="background:var(--dark-card);border:1px solid rgba(108,92,231,0.3);border-radius:20px;padding:40px;max-width:500px;width:100%;color:var(--white);font-family:var(--font-main);">' +
+        '<h3 style="margin-bottom:8px;font-size:1.3rem;">⚡ Setup Required</h3>' +
+        '<p style="color:var(--gray-400);margin-bottom:24px;">' + productName + ' — $' + price + '</p>' +
+        '<div style="background:var(--dark-soft);border-radius:12px;padding:20px;margin-bottom:24px;">' +
+          '<p style="color:var(--gray-300);font-size:0.9rem;margin-bottom:12px;"><strong style="color:var(--secondary);">To activate sales, complete these steps:</strong></p>' +
+          '<ol style="color:var(--gray-300);font-size:0.9rem;padding-left:20px;line-height:2;">' +
+            '<li>Create a free account at <strong>gumroad.com</strong></li>' +
+            '<li>Upload your product files from <code style="background:rgba(108,92,231,0.2);padding:2px 6px;border-radius:4px;">/products/</code></li>' +
+            '<li>Set the price to <strong>$' + price + '</strong></li>' +
+            '<li>Copy the product ID from Gumroad</li>' +
+            '<li>Update <code style="background:rgba(108,92,231,0.2);padding:2px 6px;border-radius:4px;">GUMROAD_PRODUCTS</code> in <code style="background:rgba(108,92,231,0.2);padding:2px 6px;border-radius:4px;">js/main.js</code></li>' +
+          '</ol>' +
+        '</div>' +
+        '<button onclick="this.closest(\'div\').parentElement.remove()" style="width:100%;padding:14px;background:var(--gradient-primary);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;">Got It</button>' +
+      '</div>';
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) overlay.remove();
+    });
+
+    document.body.appendChild(overlay);
+  }
 
   // ==================== ANALYTICS & TRACKING ====================
   function trackEvent(eventName, data) {

@@ -1,0 +1,81 @@
+name: Content Agent — Weekly Blog & Social Content
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      content_type:
+        description: 'Type of content to generate'
+        required: true
+        default: 'blog'
+        type: choice
+        options:
+          - blog
+          - social
+          - newsletter
+
+jobs:
+  content-generation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Content Agent — Generate Weekly Report
+        run: |
+          echo "============================================"
+          echo "  CONTENT AGENT — Weekly Execution"
+          echo "  Date: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          echo "============================================"
+          echo ""
+          echo "Agent Status: ACTIVE"
+          echo "Task: Weekly content review and planning"
+          echo ""
+          echo "--- Content Inventory ---"
+          echo "Blog posts: $(find blog/ -name '*.html' | wc -l)"
+          echo "Product pages: $(find . -maxdepth 1 -name '*.html' | wc -l)"
+          echo "Total pages: $(find . -name '*.html' | wc -l)"
+          echo ""
+          echo "--- SEO Check ---"
+          echo "Sitemap entries: $(grep -c '<url>' sitemap.xml 2>/dev/null || echo 0)"
+          echo "Robots.txt: $(test -f robots.txt && echo 'Present' || echo 'Missing')"
+          echo ""
+          echo "--- Recommendations ---"
+          echo "1. Publish 1 new blog post this week"
+          echo "2. Update social media content"
+          echo "3. Review keyword rankings"
+          echo ""
+          echo "Content Agent execution complete."
+
+  analytics-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Analytics Agent — Weekly KPI Report
+        run: |
+          echo "============================================"
+          echo "  ANALYTICS AGENT — Weekly KPI Report"
+          echo "  Date: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          echo "============================================"
+          echo ""
+          echo "Agent Status: ACTIVE"
+          echo ""
+          echo "--- Site Health ---"
+          echo "Total HTML pages: $(find . -name '*.html' -not -path './.git/*' | wc -l)"
+          echo "Total CSS files: $(find . -name '*.css' | wc -l)"
+          echo "Total JS files: $(find . -name '*.js' | wc -l)"
+          echo "Products in catalog: $(find products/ -name '*.md' 2>/dev/null | wc -l)"
+          echo ""
+          echo "--- File Sizes ---"
+          du -sh css/ js/ blog/ products/ 2>/dev/null || true
+          echo ""
+          echo "--- Revenue Target ---"
+          echo "Goal: \$100 in 30 days"
+          echo "Products: 3 active + 1 bundle"
+          echo "Required sales: ~8 (avg \$13/sale)"
+          echo ""
+          echo "Analytics Agent execution complete."

@@ -1,0 +1,6 @@
+# GitHub Pages deployment configuration
+theme: null
+title: "PromptForge — AI Prompts & Digital Templates"
+description: "500+ battle-tested AI prompts and digital templates for business, marketing, and productivity."
+url: ""
+baseurl: ""
